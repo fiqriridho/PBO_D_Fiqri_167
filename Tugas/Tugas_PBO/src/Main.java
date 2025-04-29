@@ -1,9 +1,9 @@
 import java.util.Scanner;
-
+//ini modul 3
 public class Main {
     public static void main(String[] args) {
         Scanner Inputobj = new Scanner(System.in);
-        Admin admin = new Admin();
+        Admin admin = new Admin("Admin1","01", "Admin167","password167");
         Mahasiswa mahasiswa = new Mahasiswa("Fiqri Ridho Firmansyah","202410370110167");
 
         System.out.println("Pilih Login : ");
@@ -20,7 +20,7 @@ public class Main {
             String password = Inputobj.nextLine();
 
             if (admin.login(username, password)) {
-                System.out.println("Login Admin Berhasil!");
+                admin.displayInfo();
             } else {
                 System.out.println("Login gagal! Username atau password salah.");
             }
@@ -41,4 +41,3 @@ public class Main {
         Inputobj.close();
     }
 }
-//ini modul 3
