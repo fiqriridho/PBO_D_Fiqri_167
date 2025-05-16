@@ -1,3 +1,7 @@
+package com.praktikum.main;
+
+import com.praktikum.users.*;
+
 import java.util.Scanner;
 //ini modul 3
 public class Main {
@@ -20,7 +24,9 @@ public class Main {
             String password = Inputobj.nextLine();
 
             if (admin.login(username, password)) {
-                admin.displayInfo();
+                User user = admin;
+                user.displayInfo();
+                user.displayAppMenu();
             } else {
                 System.out.println("Login gagal! Username atau password salah.");
             }
@@ -31,7 +37,9 @@ public class Main {
             String nim = Inputobj.nextLine();
 
             if (mahasiswa.login(nama, nim)) {
-                mahasiswa.displayInfo();
+                User user = mahasiswa;
+                user.displayInfo();
+                user.displayAppMenu();
             } else {
                 System.out.println("Login gagal! Nama atau NIM salah.");
             }
