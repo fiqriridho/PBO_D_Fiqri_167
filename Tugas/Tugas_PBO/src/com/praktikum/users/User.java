@@ -1,6 +1,5 @@
 package com.praktikum.users;
 
-
 import java.util.Scanner;
 
 //class tambahan dari modul 3

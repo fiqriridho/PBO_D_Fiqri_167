@@ -1,7 +1,9 @@
 package com.praktikum.users;
 
 import com.praktikum.actions.MahasiswaActions;
-
+import com.praktikum.main.LoginSystem;
+import com.praktikum.data.Item;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Mahasiswa extends User implements MahasiswaActions {
@@ -25,30 +27,46 @@ public class Mahasiswa extends User implements MahasiswaActions {
 
     @Override
     public void reportItem() {
-        System.out.println("LAPORAN KEHILANGAN");
+        System.out.println("=== FORM LAPORAN BARANG KEHILANGAN ===");
         System.out.print("Masukkan Nama Barang: ");
         String namaBarang = scanner.nextLine();
-        System.out.print("Masukkan Nama Deskripsi Barang: ");
+        System.out.print("Masukkan Deskripsi Barang: ");
         String deskripsiBarang = scanner.nextLine();
         System.out.print("Masukkan Lokasi Terakhir Ditemukan: ");
         String lokasi = scanner.nextLine();
 
+        Item barang = new Item(namaBarang, deskripsiBarang, lokasi, "Reported");
+
+        LoginSystem.reportedItems.add(barang);
+
         System.out.println();
         System.out.println(">> Laporan berhasil dikirim! <<");
-        System.out.println("Nama Barang: " + namaBarang);
-        System.out.println("Deskripsi: " + deskripsiBarang);
-        System.out.println("Lokasi: " + lokasi);
-        System.out.println("Laporan Diterima Harap Tunggu");
+        System.out.println("-----------------------------------");
+        barang.displayItem();
+        System.out.println("Laporan diterima. Harap tunggu tindak lanjut.");
     }
 
     @Override
     public void viewReportedItems() {
-        System.out.println(">> Fitur Lihat Laporan Belum Tersedia <<");
+        System.out.println("=== DAFTAR LAPORAN BARANG ===");
+
+        boolean adaLaporan = false;
+        for (Item item : LoginSystem.reportedItems) {
+            if ("Reported".equalsIgnoreCase(item.getStatus())) {
+                item.displayItem();
+                adaLaporan = true;
+            }
+        }
+
+        if (!adaLaporan) {
+            System.out.println("Belum ada laporan barang.");
+        }
     }
+
 
     @Override
     public void displayAppMenu() {
-        int pilihan;
+        int pilihan = 0;
         do {
             System.out.println("===== MENU MAHASISWA =====");
             System.out.println("1. Laporkan Barang Temuan/Hilang");
@@ -56,13 +74,14 @@ public class Mahasiswa extends User implements MahasiswaActions {
             System.out.println("0. Logout");
             System.out.print("Masukkan Pilihan: ");
 
-            while (!scanner.hasNextInt()) {
-                System.out.print("Masukkan angka yang valid: ");
-                scanner.next();
+            try {
+                pilihan = scanner.nextInt();
+                scanner.nextLine();
+            } catch (InputMismatchException e) {
+                System.out.println("Input harus berupa angka!");
+                scanner.nextLine(); // Bersihkan buffer
+                continue;
             }
-
-            pilihan = scanner.nextInt();
-            scanner.nextLine();
 
             System.out.println();
 
