@@ -79,7 +79,7 @@ public class Mahasiswa extends User implements MahasiswaActions {
                 scanner.nextLine();
             } catch (InputMismatchException e) {
                 System.out.println("Input harus berupa angka!");
-                scanner.nextLine(); // Bersihkan buffer
+                scanner.nextLine();
                 continue;
             }
 

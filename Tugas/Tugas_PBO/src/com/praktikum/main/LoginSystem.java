@@ -4,7 +4,6 @@ import com.praktikum.data.Item;
 import com.praktikum.users.*;
 
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class LoginSystem {
@@ -15,12 +14,28 @@ public class LoginSystem {
         return reportedItems;
     }
 
+    static {
+        userList.add(new Admin("Admin1", "167", "Admin167", "password167"));
+        userList.add(new Mahasiswa("Fiqri", "   167"));
+    }
+
+    public static User login(String usernameOrName, String passwordOrNIM, String role) {
+        for (User u : userList) {
+            if ("Admin".equalsIgnoreCase(role) && u instanceof Admin) {
+                if (u.login(usernameOrName, passwordOrNIM)) {
+                    return u;
+                }
+            } else if ("Mahasiswa".equalsIgnoreCase(role) && u instanceof Mahasiswa) {
+                if (u.login(usernameOrName, passwordOrNIM)) {
+                    return u;
+                }
+            }
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
         Scanner Inputobj = new Scanner(System.in);
-
-        userList.add(new Admin("Admin1", "167", "Admin167", "password167"));
-        userList.add(new Mahasiswa("Fiqri Ridho Firmansyah", "202410370110167"));
-
         boolean running = true;
 
         while (running) {
@@ -47,16 +62,11 @@ public class LoginSystem {
                     System.out.print("Password: ");
                     String pass = Inputobj.nextLine();
 
-                    boolean loginAdmin = false;
-                    for (User u : userList) {
-                        if (u instanceof Admin && u.login(user, pass)) {
-                            u.displayInfo();
-                            ((Admin) u).displayAppMenu();
-                            loginAdmin = true;
-                            break;
-                        }
-                    }
-                    if (!loginAdmin) {
+                    User admin = login(user, pass, "Admin");
+                    if (admin != null) {
+                        admin.displayInfo();
+                        ((Admin) admin).displayAppMenu();
+                    } else {
                         System.out.println("Login admin gagal!");
                     }
                     break;
@@ -67,16 +77,11 @@ public class LoginSystem {
                     System.out.print("NIM: ");
                     String nim = Inputobj.nextLine();
 
-                    boolean loginMhs = false;
-                    for (User u : userList) {
-                        if (u instanceof Mahasiswa && u.login(nama, nim)) {
-                            u.displayInfo();
-                            ((Mahasiswa) u).displayAppMenu();
-                            loginMhs = true;
-                            break;
-                        }
-                    }
-                    if (!loginMhs) {
+                    User mahasiswa = login(nama, nim, "Mahasiswa");
+                    if (mahasiswa != null) {
+                        mahasiswa.displayInfo();
+                        ((Mahasiswa) mahasiswa).displayAppMenu();
+                    } else {
                         System.out.println("Login mahasiswa gagal!");
                     }
                     break;

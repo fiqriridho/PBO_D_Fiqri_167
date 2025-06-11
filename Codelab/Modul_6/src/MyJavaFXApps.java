@@ -24,19 +24,23 @@ public class MyJavaFXApps extends Application {
         angkaRahasia = generateAngka();
         jumlahTebakan = 0;
 
-        Label labelJudul = new Label("👻 Tebak Angka dari 1 sampai 100");
+        Label labelJudul = new Label("🔢  Tebak Angka dari 1 sampai 100  🔢");
         labelJudul.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: blue;");
 
         labelFeedback = new Label("Masukkan tebakanmu di bawah.");
         labelPercobaan = new Label("Jumlah percobaan: 0");
 
         inputTebakan = new TextField();
-        inputTebakan.setPromptText("Contoh: 42");
-        inputTebakan.setMaxWidth(100);
+        inputTebakan.setPromptText("Masukkan Angka");
+        inputTebakan.setStyle("pos");
+        inputTebakan.setMaxWidth(150);
 
         tombolAksi = new Button("Coba Tebak!");
         tombolAksi.setPrefWidth(120);
         tombolAksi.setOnAction(e -> prosesTebakan());
+
+        HBox inputArea = new HBox(10, inputTebakan, tombolAksi);
+        inputArea.setAlignment(Pos.CENTER);
 
         VBox layout = new VBox(15);
         layout.setAlignment(Pos.CENTER);
@@ -44,13 +48,13 @@ public class MyJavaFXApps extends Application {
 
         layout.getChildren().addAll(
                 labelJudul,
-                inputTebakan,
-                tombolAksi,
+                inputArea,
                 labelFeedback,
                 labelPercobaan
         );
 
         Scene scene = new Scene(layout, 380, 250);
+        primaryStage.setTitle("Game Tebak Angka");
         primaryStage.setTitle("Game Tebak Angka");
         primaryStage.setScene(scene);
         primaryStage.show();
